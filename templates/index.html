@@ -4,7 +4,7 @@
 {% block content %}
 <div class="card">
     <h1 class="card_header">Dashboard</h1>
-    <p class="card_content">Welcome to SmartGrowth dashboard!<br>Here you can find sensor data with 5s latency.</p>
+    <p class="card_content">Welcome to SmartGrowth dashboard!<br>Here you can find sensor data with 3s latency.</p>
 </div>
 {% if time_error %}
 <div class="card" style="background-color: #ffb9a7">
@@ -18,14 +18,18 @@
 </div>
 <div class="card">
     <h1 class="card_header">Temperature</h1>
-    <p class="card_content">{{ temperature }}</p>
+    <p class="card_content">Value: {{ temperature }}</p>
 </div>
 <div class="card">
     <h1 class="card_header">Humidity</h1>
-    <p class="card_content">{{ humidity }}</p>
+    <p class="card_content">Value: {{ humidity }}</p>
 </div>
 <div class="card">
     <h1 class="card_header">Ph</h1>
-    <p class="card_content">{{ ph }}</p>
+    <p class="card_content">Value: {{ ph }}</p>
+</div>
+<div class="card">
+    <h1 class="card_header">Light</h1>
+    <p class="card_content">Value: {{ light }}</p>
 </div>
 {% endblock %}

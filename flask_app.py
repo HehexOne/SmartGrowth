@@ -28,6 +28,7 @@ class Device(db.Model):
     temperature = db.Column(db.Float, default=0)
     humidity = db.Column(db.Float, default=0)
     ph = db.Column(db.Float, default=0)
+    light = db.Column(db.Float, default=0)
     is_enabled = db.Column(db.Boolean, default=False)
     irr_intensity = db.Column(db.Integer, default=1)
     irr_time = db.Column(db.Integer, default=1)
@@ -74,7 +75,8 @@ def index():
     return render_template("index.html", time_error=time_error, device_name=device.device_name,
                            temperature=device.temperature,
                            humidity=device.humidity,
-                           ph=device.ph)
+                           ph=device.ph,
+                           light=device.light)
 
 
 @app.route("/settings", methods=["GET", "POST"])
@@ -129,6 +131,7 @@ def get_data_from_arduino(ident):
         device.temperature = data[0]
         device.humidity = data[1]
         device.ph = data[2]
+        device.light = data[3]
         device.last_upload_date = datetime.datetime.now()
         db.session.commit()
     return ";".join(map(str, [int(device.is_enabled),
