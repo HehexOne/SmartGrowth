@@ -3,6 +3,7 @@ from functools import wraps
 from flask import Flask, request, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 from threading import Thread
+import time
 
 plants = {
     "Cucumber": [1, 4, 20, 155],
@@ -47,6 +48,7 @@ def irritation():
             else:
                 device.irr_on = False
         db.session.commit()
+        time.sleep(10)
 
 
 def default_device(f):
@@ -131,7 +133,7 @@ def get_data_from_arduino(ident):
         db.session.commit()
     return ";".join(map(str, [int(device.is_enabled),
                               int(device.irr_on),
-                              device.light_intensity]))
+                              str(device.light_intensity).rjust(3, "0")]))
 
 
 db.create_all()
@@ -139,4 +141,4 @@ Thread(target=irritation).start()
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=80)
