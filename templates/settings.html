@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<style>
+    .forms {
+        font-size: 50px;
+        padding: 40px;
+    }
+
+    input[type="number"] {
+        border: 0;
+        font-size: 40px;
+        height: 50px !important;
+        width: 500px !important;
+        border-bottom-width: 5px;
+        border-bottom-style: solid;
+        border-bottom-color: #6795e9;
+    }
+
+    input[type="text"] {
+        border: 0;
+        font-size: 40px;
+        height: 50px !important;
+        width: 500px !important;
+        border-bottom-width: 5px;
+        border-bottom-style: solid;
+        border-bottom-color: #6795e9;
+    }
+
+    textarea:focus, input:focus{
+        outline: none;
+    }
+
+    input[type="radio"] {
+        width:50px  !important;
+        height:50px !important;
+    }
+
+    input[type="range"] {
+        width:500px  !important;
+        height:50px !important;
+    }
+
+    select {
+        width:500px !important;
+        font-size: 40px;
+        height:75px !important;
+    }
+
+    .form_button {
+        width:300px !important;
+        font-size: 40px;
+        height:75px !important;
+    }
+
+</style>
+<div class="card">
+    <h1 class="card_header">Settings</h1>
+    <p class="card_content">Here you can find some settings</p>
+</div>
+<div class="card">
+    <h1 class="card_header">Device</h1>
+    <p class="card_content">Device ID: {{ device_id }}<br/>Device name: {{ device_name }}</p>
+    <br><br><br><br><br>
+    <form action="/settings" name="device_form" class="forms" method="post">
+        <input type="hidden" name="type" value="device_form">
+        <h3>Select your device</h3>
+        <select name="device" required>
+            {% for device in devices %}
+            {% if current_id == device.device_id %}
+            <option selected value="{{ device.device_id }}">{{ device.device_name }}</option>
+            {% else %}
+            <option value="{{ device.device_id }}">{{ device.device_name }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+        <br>
+        <input style="margin-top: 40px;" type="submit" class="form_button" value="Select">
+    </form>
+</div>
+<div class="card">
+    <h1 class="card_header">Rename Device</h1>
+    <form action="/settings" name="rename_form" class="forms" method="post">
+        <input type="hidden" name="type" value="rename_form">
+        <h3>Name</h3>
+        <input type="text" value="{{ device_name }}" maxlength="32" minlength="5" name="name">
+        <br><br>
+        <input type="submit" value="Apply" class="form_button">
+    </form>
+</div>
+<div class="card">
+    <h1 class="card_header">Templates</h1>
+    <p class="card_content">Here you can find params templates for different plants.</p>
+    <br>
+    <br>
+    <form action="/settings" name="templates_forms" method="post" class="forms">
+        <input type="hidden" name="type" value="templates_form">
+        <select name="template" required>
+            {% for plant in plants %}
+            <option value="{{ plant }}">{{ plant }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Apply" class="form_button">
+    </form>
+</div>
+<div class="card">
+    <h1 class="card_header">Parameters</h1>
+    <form action="/settings" name="params_form" method="post" class="forms">
+        <input type="hidden" name="type" value="params_form">
+        <div>
+            <h3>Enabled</h3>
+            <div>
+                {% if is_enabled %}
+                <input type="radio" name="enabled" value="0">
+                <label>Off</label>
+                <input type="radio" name="enabled" value="1" style="margin-left: 70px;" checked>
+                <label>On</label>
+                {% else %}
+                <input type="radio" name="enabled" value="0" checked>
+                <label>Off</label>
+                <input type="radio" name="enabled" value="1" style="margin-left: 70px;">
+                <label>On</label>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+        <div>
+            <h3>Irrigation intensity</h3>
+            <input type="number" placeholder="(1 - 4, num)" value="{{ irr_intensity }}" name="intense" step="1" min="1" max="4" required>
+        </div>
+        <br>
+        <div>
+            <h3>Irrigation time</h3>
+            <input type="number" placeholder="(1 - 20, min)" value="{{ irr_time }}" name="time" min="1" step="1" max="20" required>
+        </div>
+        <br>
+        <div>
+            <h3>Light intensity</h3>
+            <input type="range" step="1" name="light" min="0" max="255" value="{{ light_intensity }}" required>
+        </div>
+        <br><br><br>
+        <input type="submit" value="Apply" class="form_button">
+    </form>
+</div>
+{% endblock %}

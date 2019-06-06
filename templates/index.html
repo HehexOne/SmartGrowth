@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="card">
+    <h1 class="card_header">Dashboard</h1>
+    <p class="card_content">Welcome to SmartGrowth dashboard!<br>Here you can find sensor data with 5s latency.</p>
+</div>
+{% if time_error %}
+<div class="card" style="background-color: #ffb9a7">
+    <h1 class="card_header">Error</h1>
+    <p class="card_content">No data in 20s.<br>Check internet connection or power connection!</p>
+</div>
+{% endif %}
+<div class="card">
+    <h1 class="card_header">Your Device</h1>
+    <p class="card_content">Device name: {{ device_name }}</p>
+</div>
+<div class="card">
+    <h1 class="card_header">Temperature</h1>
+    <p class="card_content">{{ temperature }}</p>
+</div>
+<div class="card">
+    <h1 class="card_header">Humidity</h1>
+    <p class="card_content">{{ humidity }}</p>
+</div>
+<div class="card">
+    <h1 class="card_header">Ph</h1>
+    <p class="card_content">{{ ph }}</p>
+</div>
+{% endblock %}
